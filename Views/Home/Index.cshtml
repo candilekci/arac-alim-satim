@@ -1,0 +1,55 @@
+﻿@using AracSatis.Models.Entity
+@model  List<Tbl_Kategori>
+
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    .card-img-top {
+        height: 25rem;
+    }
+    a{
+        color:black;
+        text-decoration:none;    
+    }
+    a:hover{
+        color:gray;
+    }
+</style>
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">ARAC SATIS </h1>
+        <p class="lead">HAYALİNİZDEKİ LÜKS ARACA SAHİP OLMA ZAMANI GELDİYSE DOĞRU YERDESİNİZ</p>
+        <hr class="my-4">
+        <p>İstediğiniz aracı bulamazsanız bize ulaşın sizin için temin edelim</p>
+        <p class="lead">
+
+
+            <a class="btn btn-danger btn-lg" href="#1" role="button">Kategorilere Göz At</a>
+        </p>
+    </div>
+</div>
+
+<div class="container-fluid pb-5" id="1">
+    <div class="row row-cols-1 row-cols-md-3 g-4 pb-5">
+
+        @foreach (var ktg in Model)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <a href="/Kategori/Index?id=@ktg.KategoriID"><img src="~/WebSite/img/@ktg.KategoriIMG" class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <a href="/Kategori/Index?id=@ktg.KategoriID"><h5 class="card-title">@ktg.KategoriAD</h5></a>
+                        <p class="card-text"></p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted"></small>
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </div>
+</div>
+

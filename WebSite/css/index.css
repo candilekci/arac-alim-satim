@@ -1,0 +1,49 @@
+.jumbotron {
+    background-image: url("/WebSite/img/car.jpg");
+    background-size: cover;
+    padding: 20%;
+}
+
+.card-img-top {
+    max-width: 750px;
+    max-height: 500px;
+}
+
+.container-fluid {
+    padding-right: 6%;
+    padding-left: 6%;
+    padding-top: 2%;
+}
+
+.navbar {
+    padding: 10px;
+}
+
+.navi li{
+    margin-left: 70% ;
+    margin-right: 30%;
+}
+
+.giris {
+    width: auto;
+}
+
+.image-shape {
+    max-width: 600px;
+    max-height: 500px;
+}
+
+.header-control {
+    padding: 25px;
+}
+
+.btn-satinal {
+    font-size: 30px;
+}
+
+
+
+
+
+
+

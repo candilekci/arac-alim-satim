@@ -1,0 +1,53 @@
+﻿@using AracSatis.Models.Entity
+@model List<Tbl_Arac>
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .card-img-top {
+        max-width: 750px;
+        max-height: 500px;
+    }
+
+    .container-fluid {
+        padding-right: 6%;
+        padding-left: 6%;
+        padding-top: 2%;
+    }
+
+    .card-img-top {
+        height: 28rem;
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
+    }
+
+        a:hover {
+            color: grey;
+        }
+</style>
+
+
+<div class="container-fluid pb-5" id="1">
+    <div class="row row-cols-1 row-cols-md-3 g-4 pb-5">
+        @foreach (var arc in Model)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <a href="/Details/Index?id=@arc.AracID"><img src="~/WebSite/img/@arc.AracIMG" class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <a href="/Details/Index?id=@arc.AracID"><h5 class="card-title">@arc.AracMODEL</h5></a>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Last updated 3 mins ago</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

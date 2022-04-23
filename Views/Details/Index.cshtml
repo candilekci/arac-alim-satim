@@ -1,0 +1,117 @@
+﻿
+@using AracSatis.Models.Entity
+@model List<Tbl_Arac>
+@{
+    ViewBag.Title = "Details";
+}
+
+<style>
+    .image-shape{
+        height:28rem;
+    }
+</style>
+
+@foreach (var item in Model)
+{
+
+<div class="container pb-5">
+    <h1 class="h2 container header-control">@item.AracMODEL</h1>
+    <div class="row">
+        <div class="col-md-6"> <img class="image-shape img-responsive" src="~/WebSite/img/@item.AracIMG" alt=""></div>
+        <div class="col-md-6">
+            <div class="card text-center">
+                <div class="card-header">
+                    <ul class="nav nav-pills card-header-pills">
+
+
+                        <li class="nav-item">
+                            <a class="nav-link " style="color: black;">Araç Hakkında</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th scope="row" style="font-size:large">MARKA </th>
+                                <td style="font-size:x-large">@item.AracMARKA</td>
+
+                            </tr>
+                            <tr>
+                                <th scope="row" style="font-size:large">Model </th>
+                                <td style="font-size:x-large">@item.AracMODEL</td>
+
+                            </tr>
+                            <tr>
+                                <th scope="row" style="font-size:large">Kilometre </th>
+                                <td colspan="2" style="font-size:x-large">@item.AracKM</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="font-size:large">Yıl </th>
+                                <td colspan="2" style="font-size:x-large">@item.AracYIL</td>
+                            </tr>
+                            
+                            <tr>
+                                <th scope="row" style="font-size:large">Şehir </th>
+                                <td colspan="2" style="font-size:x-large">@item.AracSehir </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="font-size:large">Plaka </th>
+                                <td colspan="2" style="font-size:x-large">@item.AracPLAKA</td>
+                            </tr>             
+                            <tr>
+                                <th scope="row" style="font-size:large">Fiyat </th>
+                                <td  id="amount"  colspan="2" style="font-size:x-large">@item.AracFIYAT  </td>
+                            </tr>
+                        </tbody>
+                    </table><button style="margin-bottom:.625rem" id="getExchangeRate" class="btn btn-primary">ÇEVİR</button>
+                    @if(Convert.ToInt32(Session["Bakiye"]) > item.AracFIYAT) 
+                    { 
+                    <div class="d-grid gap-2">
+                        <a  class="btn btn-dark btn-satinal" href="../Satis/Index?id=@item.AracID"> SATIN AL </a>
+
+                    </div>
+                    }
+                    else
+                    {
+                        <h3>PARAN YETMEZ</h3>
+                        <a href="https://bireysel.ziraatbank.com.tr/Transactions/Login/FirstLogin.aspx?ReturnUrl=%2f"><p>Bakiye Yüklemek İçin..</p></a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">İletişim Numarası : 0541 390 32 45</span>
+    </div>
+
+</footer>
+<script>
+      const amount = document.querySelector("#amount").textContent;
+
+      let resultString = "";
+      const getData = async () => {
+        const response = await fetch("http://127.0.0.1:8081/convert/" + amount);
+        const responseData = await response.json();
+
+        return responseData.data.results;
+
+        // for (const result of results) {
+        //   resultString += result;
+        // }
+      };
+
+      const promptData = async () => {
+        const results = await getData();
+
+        const string = alert(results.join("\n"));
+      };
+
+      document
+        .querySelector("#getExchangeRate")
+        .addEventListener("click", promptData);
+</script>
+}
+

@@ -1,0 +1,84 @@
+﻿@using AracSatis.Models.Entity
+@model List<Tbl_Arac>
+@using AracSatis.Blockchain
+@{
+    ViewBag.Title = "Index";
+}
+@{ 
+
+
+    AracSatisEntities db = new AracSatisEntities();
+    var lastblockid = (from x in db.Tbl_Blockchain orderby x.BlockID descending select x.BlockID).FirstOrDefault();
+    var lastblockhash = (from x in db.Tbl_Blockchain orderby x.BlockID descending select x.Hash).FirstOrDefault();
+    Blockchain blockchain = new Blockchain();
+    Tbl_Blockchain b = new Tbl_Blockchain();
+
+
+
+    if (lastblockid != 0)
+    {
+        foreach (var item in Model)
+        {
+            var bky = db.Tbl_Musteri.Find(Convert.ToInt32(Session["ID"]));
+            bky.MusteriBAKIYE -= item.AracFIYAT;
+            Session["Bakiye"] = bky.MusteriBAKIYE;
+
+            blockchain.blockSifreleme(lastblockid + 1, Session["Ad"].ToString(), item.AracMARKA, item.AracMODEL, Convert.ToInt32(item.AracFIYAT), lastblockhash);
+
+            b.BlockID = Convert.ToByte(blockchain.blc.BlockID);
+            b.MusteriName = Session["AD"].ToString();
+            b.UrunMarka = item.AracMARKA;
+            b.UrunModel = item.AracMODEL;
+            b.UrunFiyat = item.AracFIYAT;
+            b.PreviousHash = lastblockhash;
+            b.Hash = blockchain.blc.Hash;
+
+            db.Tbl_Blockchain.Add(b);
+            db.SaveChanges();
+
+        };
+
+    }
+    else
+    {
+
+        blockchain.baslangıcBloguOlustur();
+
+        b.BlockID = Convert.ToByte(blockchain.blc.BlockID);
+        b.MusteriName = blockchain.blc.MusteriName;
+        b.UrunMarka = blockchain.blc.UrunMarka;
+        b.UrunModel = blockchain.blc.UrunModel;
+        b.UrunFiyat = blockchain.blc.UrunFiyat;
+        b.PreviousHash = blockchain.blc.PreviousHash;
+        b.Hash = blockchain.blc.Hash;
+
+        db.Tbl_Blockchain.Add(b);
+        db.SaveChanges();
+
+        foreach (var item in Model)
+        {
+            var bky = db.Tbl_Musteri.Find(Convert.ToInt32(Session["ID"]));
+            bky.MusteriBAKIYE -= item.AracFIYAT;
+            Session["Bakiye"] = bky.MusteriBAKIYE;
+            blockchain.blockSifreleme(2, Session["Ad"].ToString(), item.AracMARKA, item.AracMODEL, Convert.ToInt32(item.AracFIYAT), lastblockhash);
+
+            b.BlockID = Convert.ToByte(blockchain.blc.BlockID);
+            b.MusteriName = Session["AD"].ToString();
+            b.UrunMarka = item.AracMARKA;
+            b.UrunModel = item.AracMODEL;
+            b.UrunFiyat = item.AracFIYAT;
+            b.PreviousHash = lastblockhash;
+            b.Hash = blockchain.blc.Hash;
+
+            db.Tbl_Blockchain.Add(b);
+            db.SaveChanges();
+
+
+        };
+    }
+
+
+}
+
+<h2>Satın Alım Basarılı</h2>
+

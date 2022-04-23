@@ -1,0 +1,128 @@
+﻿@using AracSatis.Models.Entity
+@model List<Tbl_Blockchain>
+@{
+    ViewBag.Title = "Blockchain";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+}
+
+<style>
+    .container-fluid {
+        padding-right: 6%;
+        padding-left: 6%;
+        padding-top: 2%;
+    }
+</style>
+
+<body>
+
+    @foreach (var block in Model)
+    {
+        <span class="hiddenSpan" style="display:none">
+            <span class="blockID">@block.BlockID</span>
+            <span class="musteriName">@block.MusteriName</span>
+            <span class="urunMarka">@block.UrunMarka</span>
+            <span class="urunModel">@block.UrunModel</span>
+            <span class="urunFiyat">@block.UrunFiyat</span>
+            <span class="previousHash">@block.PreviousHash</span>
+            <span class="hash">@block.Hash</span>
+        </span>
+    }
+
+    <div class="container-fluid pb-5" id="1">
+        <div id="blockchainContainer" class="row row-cols-1 row-cols-md-3 g-4 pb-5">
+        </div>
+    </div>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous">
+    </script>
+
+    <script>
+        const blockchainContainer = document.querySelector("#blockchainContainer");
+        const spans = document.querySelectorAll(".hiddenSpan");
+        let blocks = [];
+
+        for (span of spans) {
+            const blockID = span.children[0].textContent.trim();
+            const musteriName = span.children[1].textContent.trim();
+            const urunMarka = span.children[2].textContent.trim();
+            const urunModel = span.children[3].textContent.trim();
+            const urunFiyat = span.children[4].textContent.trim();
+            const previousHash = span.children[5].textContent.trim();
+            const hash = span.children[6].textContent.trim();
+
+            blocks.unshift({ blockID, musteriName, urunMarka, urunModel, urunFiyat, previousHash, hash });
+        }
+
+        
+        const blockCardString = (index, disabled) => {
+            return ` <div class="card ">
+                                    <form action="/AdminPanel/Blockchain" method="post">
+
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Block: </th>
+                                                <td><input name="blockID" class="form-control me-2" type="" placeholder="" aria-label="input" disabled value="${blocks[index].blockID}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Alıcı: </th>
+                                                <td><input name="musteriName" class="form-control me-2" type="" placeholder="" aria-label="input" ${disabled} value="${blocks[index].musteriName}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Ürün Kategorisi: </th>
+                                                <td><input name="urunMarka" class="form-control me-2" type="" placeholder="" aria-label="input" ${disabled} value="${blocks[index].urunMarka}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Ürün Model: </th>
+                                                <td><input name="urunModel" class="form-control me-2" type="" placeholder="" aria-label="input" ${disabled} value="${blocks[index].urunModel}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Ürün Fİyatı: </th>
+                                                <td><input name="urunFiyat" class="form-control me-2" type="" placeholder="" aria-label="input" ${disabled} value="${blocks[index].urunFiyat}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Previous Hash: </th>
+                                                <td><input name="previousHash" class="form-control me-2" type="" placeholder="" aria-label="input" disabled value="${blocks[index].previousHash}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Hash: </th>
+                                                <td><input name="hash" class="form-control me-2" type="" placeholder="" aria-label="input" disabled value="${blocks[index].hash}"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <br>
+                                        
+                                    </form>
+                                    </div>`;
+
+        }
+
+
+        blockchainContainer.insertAdjacentHTML("beforeend", blockCardString(0));
+
+        for (let i = 1; i < blocks.length; i++) {
+
+            if ((blocks[i - 1].previousHash != blocks[i].hash)) {
+                break;
+            }
+
+            if (i === blocks.length - 1) {
+                blockchainContainer.insertAdjacentHTML("beforeend", blockCardString(i, "disabled"));
+                break;
+            }
+
+            if ((blocks[i-1].previousHash === blocks[i].hash)) {
+
+                blockchainContainer.insertAdjacentHTML("beforeend", blockCardString(i));
+            }
+        }
+
+    </script>
+
+</body>
+

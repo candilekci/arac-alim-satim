@@ -1,0 +1,76 @@
+﻿@model AracSatis.Models.Entity.Tbl_Arac
+@{
+    ViewBag.Title = "AracEkle";
+    Layout = "~/Views/Shared/_LayoutAdminPanel.cshtml";
+
+}
+
+
+
+<style>
+    .ekle {
+        height: 50%;
+        width: 40%;
+    }
+</style>
+
+
+
+
+
+
+@using (Html.BeginForm("AracEkle", "Arac", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container ekle">
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th scope="row">Aracın Plakası: </th>
+                        <td>@Html.TextBoxFor(a => a.AracPLAKA, new { @class = "form-control me-2" })</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Araç Model: </th>
+                        <td>@Html.TextBoxFor(a => a.AracMODEL, new { @class = "form-control me-2" })</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Araç Marka: </th>
+                        <td>@Html.TextBoxFor(a => a.AracMARKA, new { @class = "form-control me-2" })</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Aracın Kilometresi: </th>
+                        <td>@Html.TextBoxFor(a => a.AracKM, new { @class = "form-control me-2" })</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Aracın Yılı: </th>
+                        <td>@Html.TextBoxFor(a => a.AracYIL, new { @class = "form-control me-2" })</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Aracın Bulunduğu Şehir: </th>
+                        <td>@Html.TextBoxFor(a => a.AracSehir, new { @class = "form-control me-2" })</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Aracın Bulunduğu Kategori: </th>
+                        <td>@Html.TextBoxFor(a => a.Kategori, new { @class = "form-control me-2" })</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Aracın Fiyatı: </th>
+                        <td>@Html.TextBoxFor(a => a.AracFIYAT, new { @class = "form-control me-2" })</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Aracın Görseli: </th>
+                        <td><input type="file" id="dosyaGonder" name="AracIMG" /></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-grid gap-2">
+                
+                <input type="submit" value="Kaydet" class="btn btn-dark"  />
+
+            </div>
+        </div>
+    </div>
+}
+
